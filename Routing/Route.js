@@ -5,10 +5,15 @@ const {signup , logins} = require("../Components/usersignup")
 const {createComment} = require ("../Components/comment")
 const {auth, isadmin, isuser} =  require('../middlewares/userAuth');
 const newUser = require("../Models/myfile");
+const {likePost} = require("../Components/Like");
+const {createPost,getAllPosts} = require("../Components/post")
 
 router.post('/signup',signup)
 router.post('/login',logins)   
-router.post('/comment', createComment);
+router.post('/comment', auth, createComment);
+router.post('/post', auth, isadmin, createPost);
+router.post('/likes', auth , isuser,likePost);
+router.post('/getAllPosts', auth ,isuser,  getAllPosts ) ;
 
 router.get('/student', auth , (req,res)=>{
      res.json({
