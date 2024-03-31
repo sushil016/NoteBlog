@@ -15,7 +15,8 @@ exports.likePost = async (req, res) => {
       post,
       { $push: { Likes: savedLike._id } },
       { new: true }
-    ).populate();
+    ).populate("Likes");
+      
 
     return res.status(201).json({
       post: updatedlike,

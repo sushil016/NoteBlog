@@ -5,20 +5,23 @@ const {signup , logins} = require("../Components/usersignup")
 const {createComment} = require ("../Components/comment")
 const {auth, isadmin, isuser} =  require('../middlewares/userAuth');
 const newUser = require("../Models/myfile");
-const {likePost} = require("../Components/Like");
+const {likePost,unLikePost} = require("../Components/Like");
 const {createPost,getAllPosts} = require("../Components/post")
+const {fileUpload}= require("../Components/fileControl")
 
 router.post('/signup',signup)
-router.post('/login',logins)   
-router.post('/comment', auth, createComment);
+router.post('/login',auth,logins)   
+router.post('/comment', auth,isuser, createComment);
 router.post('/post', auth, isadmin, createPost);
 router.post('/likes', auth , isuser,likePost);
-router.post('/getAllPosts', auth ,isuser,  getAllPosts ) ;
+router.post('/getAllPosts', auth ,isuser,  getAllPosts );
+router.post('/uploadimage',auth,isuser, fileUpload);
+router.post('/unlike', auth, isuser, unLikePost )
 
-router.get('/student', auth , (req,res)=>{
+router.get('/blog', auth , (req,res)=>{
      res.json({
         success: true,
-        message: 'welcome tostudent page a student page'
+        message: 'Blog page Par apka Swagat Hai jee'
     })
 } );
 
@@ -39,10 +42,10 @@ router.get('/user', auth, isuser ,(req,res)=>{
 
  router.get('/details', auth ,async (req,res)=>{
     try {
-        // const details =req.newUser.id;
-        // console.log("Details", details) 
+        const details = await req.newUser._id;
+        console.log("Details", details) 
         
-        const userdata = await req.newUser.findById({id : req.newUser})
+        const userdata = await req.newUser.findById({id : req.newUser_id})
         console.log("User Data : ", userdata)
 
        return res.status(201).json({

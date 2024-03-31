@@ -9,8 +9,16 @@ const postschema = new mongoose.Schema({
     body:{
         type:String,
         required:true
-
     },
+
+    imgURL:{
+        type:String,
+        required: true
+    } ,
+
+    File:{
+        type: String,
+      },
     like:[{
         type: mongoose.Schema.Types.ObjectId,
         ref:"like"

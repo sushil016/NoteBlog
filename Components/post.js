@@ -2,9 +2,26 @@ const Post = require("../Models/postModel2")
 
 exports.createPost  = async (req, res) => {
     try {
-        const {title, body} = req.body;
+        const {title, body , file} = req.body;
+        const File = req.files.file;
+        console.log("file aya =>", file);
+        if (!File) {
+            return res.status(400).json({
+                success:false,
+                message: "file dedoo jee"
+            })
+        }
+        let path = __dirname + "./imgFiles/"  + Date.now();  + `.${file.name.split('.')[1]}`;
 
-        const  post = new Post({title,body});
+        console.log("path" ,path);
+         await file.mv(path , (error)=>{
+            console.log(error);
+        })
+        res.json({
+            message: "file  uploaded successfully!",
+        })
+
+        const  post = new Post({title,body,file});
 
         const postCreated = await post.save( );
 
