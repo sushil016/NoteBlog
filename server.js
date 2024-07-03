@@ -4,7 +4,7 @@ const app = express();
 
 require("dotenv").config();
 app.use(express.json());
-const PORT =  process.env.PORT || 4000;
+const PORT =  process.env.PORT || 3000;
 
 
 const myRoute = require("./Routing/Route")
@@ -21,7 +21,7 @@ const mydb = require("./Config/Database");
  mydb();
 
 const cloudinarydb = require("./Config/Cloudinary");
-cloudinarydb.cloudConnect();
+cloudinarydb();
 
  app.listen(PORT , ()=>{
      console.log(`Server is running on port ${PORT}`)
